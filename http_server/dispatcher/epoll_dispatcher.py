@@ -32,16 +32,16 @@ class EpollDispatcher(DispatcherInterface):
         del self
 
     def _epoll_ctl(self, operation: int):
-        events = 0
-        if self._channel.events & constants.CHANNEL_READ_EVENT:
-            events |= EPOLLIN
-        if self._channel.events & constants.CHANNEL_WRITE_EVENT:
-            events |= EPOLLOUT
+        event_mask = 0
+        if self._channel.event_mask & constants.CHANNEL_READ_EVENT:
+            event_mask |= EPOLLIN
+        if self._channel.event_mask & constants.CHANNEL_WRITE_EVENT:
+            event_mask |= EPOLLOUT
 
         if operation == constants.EPOLL_CTL_ADD:
-            self.ep.register(fd=self._channel.fd, eventmask=events)
+            self.ep.register(fd=self._channel.fd, eventmask=event_mask)
         elif operation == constants.EPOLL_CTL_MOD:
-            self.ep.modify(fd=self._channel.fd, eventmask=events)
+            self.ep.modify(fd=self._channel.fd, eventmask=event_mask)
         elif operation == constants.EPOLL_CTL_DEL:
             self.ep.unregister(self._channel.fd)
         else:

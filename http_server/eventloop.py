@@ -36,7 +36,7 @@ class EventLoop:
     def _new_channel(self):
         channel = Channel(
             sock=self._wakeup_read,
-            events=constants.CHANNEL_READ_EVENT,
+            event_mask=constants.CHANNEL_READ_EVENT,
             read_callback=self._read_message,
             write_callback=None,
             destroy_callback=None,
@@ -60,7 +60,7 @@ class EventLoop:
     def dispatcher(self):
         return self._dispatcher
 
-    def event_active(self, channel: Channel, event: int):
+    def event_active(self, channel: Channel, event_mask: int):
         pass
 
     def add_task(self, channel: Channel, action: int):
