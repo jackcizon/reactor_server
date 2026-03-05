@@ -1,0 +1,9 @@
+from typing import Final
+
+CHANNEL_TIMEOUT: Final[int] = 0b001
+CHANNEL_READ_EVENT: Final[int] = 0b010
+CHANNEL_WRITE_EVENT: Final[int] = 0b100
+
+EPOLL_CTL_ADD: Final[int] = 1
+EPOLL_CTL_MOD: Final[int] = 2
+EPOLL_CTL_DEL: Final[int] = 3
