@@ -1,25 +1,22 @@
-from http_server.channel import Channel
+class DispatcherInterface:
+    """interface of dispatcher"""
 
-
-class AbstractDispatcher:
-    """abstract dispatcher"""
-
-    def add(self, channel: Channel, loop):
+    def add(self):
         """add a channel into eventloop"""
         raise NotImplementedError
 
-    def remove(self, channel: Channel, loop):
+    def remove(self):
         """remove related channel"""
         raise NotImplementedError
 
-    def modify(self, channel: Channel, loop):
+    def modify(self):
         """modify channel status"""
         raise NotImplementedError
 
-    def clear(self, loop):
+    def clear(self):
         """post operation for close fd"""
         raise NotImplementedError
 
-    def dispatch(self, loop, timeout: float):
+    def dispatch(self):
         """monitor events"""
         raise NotImplementedError
