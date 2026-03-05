@@ -3,9 +3,9 @@ name = "reactor"
 version = "0.1.0"
 description = "reactor server"
 authors = [
-    {name = "jackcizon",email = "jack20021213cn@gmail.com"}
+    { name = "jackcizon", email = "jack20021213cn@gmail.com" }
 ]
-license = {text = "MIT"}
+license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
