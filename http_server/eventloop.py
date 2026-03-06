@@ -19,13 +19,14 @@ class EventLoop:
         self._dispatcher = dispatcher_cls()
         self._channel_task_queue: deque[ChannelElement] = deque()
         self._channel_map: dict[int, Channel] = {}
+        self._thread_id: int | None = None  # must allocate in run()
 
         self._setup_thread_related(thread_name)
         self._setup_sock_pair()
         self.add_task(channel=self._new_channel(), action=constants.EVENTLOOP_ACTION_ADD_CHANNEL)
 
     def _setup_thread_related(self, thread_name):
-        self._thread_id = threading.get_ident()
+        self._thread_id = None
         self._thread_name = thread_name or 'MainThread'
         self._mutex = RLock()
 
@@ -53,8 +54,7 @@ class EventLoop:
 
     def run(self):
         self._is_quit = False
-        if self._thread_id != threading.get_ident():
-            raise RuntimeError('thread error in run()')
+        self._thread_id = threading.get_ident()
 
         while not self._is_quit:
             self._dispatcher.dispatch()
