@@ -20,3 +20,6 @@ class DispatcherInterface:
     def dispatch(self):
         """monitor events"""
         raise NotImplementedError
+
+    def set_channel(self, channel):
+        raise NotImplementedError
