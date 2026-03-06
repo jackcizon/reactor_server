@@ -22,7 +22,7 @@ class ThreadPool:
                 sub_thread.run()
                 self._workers.append(sub_thread)
 
-    def _take_worker(self):
+    def take_worker(self):
         self._check_runtime()
         loop = self._loop
         if self._thread_num > 0:
