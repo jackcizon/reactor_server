@@ -49,3 +49,11 @@ class Channel:
     @property
     def args(self):
         return self._args
+
+
+class ChannelElement:
+    """channel element that prepares to put into task queue."""
+
+    def __init__(self, channel: Channel, action: int = 0):
+        self.channel = channel
+        self.action = action
