@@ -40,7 +40,7 @@ class Server:
         self._sock.listen(128)
         self._lfd = self._sock.fileno()
 
-    def _accept_connection(self, args):
+    def _accept_connection(self):
         conn, addr = self._sock.accept()
         loop = self._thread_pool.take_worker()
         Connection(conn, loop)
