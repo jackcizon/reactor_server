@@ -1,9 +1,8 @@
 import os
-from os import O_RDONLY, SEEK_END, SEEK_SET
 from socket import socket
 
 from http_server.buffer import Buffer
-from http_server.constants import STATUS_UNKNOWN, HTTP_STATUS_CODES_MSG_MAP, STATUS_OK
+from http_server.constants import HTTP_STATUS_CODES_MSG_MAP, STATUS_OK
 from http_server.settings import STATIC_DIR, BASE_DIR
 from http_server.utils import get_file_type
 
@@ -46,9 +45,9 @@ class Response:
         filepath = os.path.join(BASE_DIR, file)
         file_ext = file.split('.')[-1]
 
-        fd = os.open(filepath, O_RDONLY)
-        file_size = os.lseek(fd, 0, SEEK_END)
-        os.lseek(fd, 0, SEEK_SET)
+        fd = os.open(filepath, os.O_RDONLY)
+        file_size = os.lseek(fd, 0, os.SEEK_END)
+        os.lseek(fd, 0, os.SEEK_SET)
 
         self.add_header('Content-Type', get_file_type(file_ext))
         self.add_header('Content-Length', str(file_size))

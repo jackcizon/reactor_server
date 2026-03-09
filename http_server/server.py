@@ -9,6 +9,11 @@ from http_server.thread.thread_pool import ThreadPool
 def _debug_server_running(sock: socket):
     print(f'server running in {sock.getsockname()}')
 
+
+def _debug_server_accept_connection(addr):
+    print(f'new connection from: {addr}')
+
+
 class Server:
     def __init__(self, loop_cls: type[EventLoop], thread_num: int, host: str = 'localhost', port: int = 8000):
         self._loop: EventLoop | None = loop_cls()
@@ -45,6 +50,6 @@ class Server:
 
     def _accept_connection(self):
         conn, addr = self._sock.accept()
-        print(f'new connection from: {addr}')
+        _debug_server_accept_connection(addr)
         loop = self._thread_pool.take_worker()
         Connection(conn, loop)

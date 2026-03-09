@@ -1,8 +1,11 @@
 import os
 
 from http_server.buffer import Buffer
-from http_server.constants import HTTP_PARSE_REQUEST_LINE, HTTP_PARSE_REQUEST_DONE, HTTP_PARSE_REQUEST_HEADERS, \
-    HTTP_PARSE_REQUEST_BODY
+from http_server.constants import (
+    HTTP_PARSE_REQUEST_LINE,
+    HTTP_PARSE_REQUEST_DONE,
+    HTTP_PARSE_REQUEST_HEADERS,
+    HTTP_PARSE_REQUEST_BODY)
 from http_server.http.response import Response
 
 
