@@ -46,13 +46,13 @@ class Connection:
         count = self._read_buf.socket_read(sock=self._sock)
         if count > 0:
             # get new http request
-            _debug_read_buf(self._read_buf)
+            # _debug_read_buf(self._read_buf)
             flag = self._request.parse_http_request(self._sock, self._read_buf, self._write_buf, self._response)
             if flag is None:
                 self._write_buf.append('HTTP/1.1 400 Bad Request\r\n\r\n')
         else:
             self._loop.add_task(self._channel, EVENTLOOP_ACTION_DELETE_CHANNEL)
-            _debug_connection_lost()
+            # _debug_connection_lost()
 
     def write(self):
         count = self._write_buf.send_data(self._channel.sock)
