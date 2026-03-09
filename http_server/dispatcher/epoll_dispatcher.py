@@ -4,20 +4,13 @@ from select import EPOLLIN, EPOLLOUT, EPOLLHUP, EPOLLERR, epoll
 from http_server.channel import Channel
 from http_server import constants
 from http_server.dispatcher.base_dispatcher import DispatcherInterface
-from http_server.eventloop import EventLoop
 
 
 class EpollDispatcher(DispatcherInterface):
     """a handler that resolve dispatch problems"""
 
-    def __init__(
-            self,
-            loop: EventLoop,
-            *,
-            name: str = "epoll",
-            timeout: float = 2.0,
-            max_events: int = 1024
-    ):
+    def __init__(self, loop, *args, name: str = "epoll", timeout: float = 2.0, max_events: int = 1024, **kwargs):
+        super().__init__(*args, **kwargs)
         self._loop = loop
         self._name = name
         self._timeout = timeout
@@ -55,11 +48,13 @@ class EpollDispatcher(DispatcherInterface):
 
     def remove(self):
         self._epoll_ctl(constants.EPOLL_CTL_DEL)
-        self._channel.destroy_callback(self._channel.args)
+        # self._channel.destroy_callback(self._channel.args)
+        self._channel.destroy_callback()
 
     def dispatch(self):
         self.events = self.ep.poll(self._timeout)
-        for index, fd, event_mask in enumerate(self.events):
+        events = self.events
+        for fd, event_mask in events:
             if event_mask & EPOLLERR or event_mask & EPOLLHUP:
                 continue
             if event_mask & EPOLLIN:
