@@ -1,8 +1,8 @@
 import inspect
 import threading
 
-from reactor.http_server.eventloop import EventLoop
-from reactor.http_server.thread.worker_thread import WorkerThread
+from reactor_server.http_server.eventloop import EventLoop
+from reactor_server.http_server.thread.worker_thread import WorkerThread
 
 
 class ThreadPool:

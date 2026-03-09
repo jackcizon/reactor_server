@@ -1,10 +1,10 @@
 from socket import socket, AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR
 
-from reactor.http_server.channel import Channel
-from reactor.http_server.connection import Connection
-from reactor.http_server.constants import CHANNEL_READ_EVENT, EVENTLOOP_ACTION_ADD_CHANNEL
-from reactor.http_server.eventloop import EventLoop
-from reactor.http_server.thread.thread_pool import ThreadPool
+from reactor_server.http_server.channel import Channel
+from reactor_server.http_server.connection import Connection
+from reactor_server.http_server.constants import CHANNEL_READ_EVENT, EVENTLOOP_ACTION_ADD_CHANNEL
+from reactor_server.http_server.eventloop import EventLoop
+from reactor_server.http_server.thread.thread_pool import ThreadPool
 
 def _debug_server_running(sock: socket):
     print(f'server running in {sock.getsockname()}')

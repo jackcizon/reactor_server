@@ -3,3 +3,6 @@
 *.lock
 __pycache__/
 logs/
+*.tar.gz
+*.whl
+dist/

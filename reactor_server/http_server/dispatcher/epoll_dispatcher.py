@@ -1,9 +1,9 @@
 import os
 from select import EPOLLIN, EPOLLOUT, EPOLLHUP, EPOLLERR, epoll
 
-from reactor.http_server.channel import Channel
-from reactor.http_server import constants
-from reactor.http_server.dispatcher.base_dispatcher import DispatcherInterface
+from reactor_server.http_server.channel import Channel
+from reactor_server.http_server import constants
+from reactor_server.http_server.dispatcher.base_dispatcher import DispatcherInterface
 
 
 class EpollDispatcher(DispatcherInterface):

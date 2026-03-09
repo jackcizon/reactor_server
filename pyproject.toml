@@ -1,5 +1,5 @@
 [project]
-name = "reactor"
+name = "reactor_server"
 version = "2.1.0"
 description = "reactor http server"
 authors = [

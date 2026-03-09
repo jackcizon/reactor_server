@@ -2,7 +2,7 @@ from socket import socket
 from typing import Any
 from collections.abc import Callable
 
-from reactor.http_server import constants
+from reactor_server.http_server import constants
 
 
 class Channel:

@@ -1,12 +1,12 @@
 import os
 
-from reactor.http_server.buffer import Buffer
-from reactor.http_server.constants import (
+from reactor_server.http_server.buffer import Buffer
+from reactor_server.http_server.constants import (
     HTTP_PARSE_REQUEST_LINE,
     HTTP_PARSE_REQUEST_DONE,
     HTTP_PARSE_REQUEST_HEADERS,
     HTTP_PARSE_REQUEST_BODY)
-from reactor.http_server.http.response import Response
+from reactor_server.http_server.http.response import Response
 
 
 def _debug_process_http_request():

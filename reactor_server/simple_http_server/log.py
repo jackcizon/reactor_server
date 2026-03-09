@@ -1,6 +1,6 @@
 import logging
 
-from simple_http_server.conf import ACCESS_LOG
+from reactor_server.simple_http_server.conf import ACCESS_LOG
 
 __all__ = ['logger']
 
