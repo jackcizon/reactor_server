@@ -1,7 +1,7 @@
 [project]
 name = "reactor"
-version = "0.1.0"
-description = "reactor server"
+version = "2.0.0"
+description = "reactor http server"
 authors = [
     { name = "jackcizon", email = "jack20021213cn@gmail.com" }
 ]
