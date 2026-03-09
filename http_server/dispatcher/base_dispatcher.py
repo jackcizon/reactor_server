@@ -1,6 +1,9 @@
 class DispatcherInterface:
     """interface of dispatcher"""
 
+    def __init__(self, *args, **kwargs):
+        pass
+
     def add(self):
         """add a channel into eventloop"""
         raise NotImplementedError
