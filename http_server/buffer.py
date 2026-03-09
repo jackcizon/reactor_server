@@ -88,7 +88,7 @@ class Buffer:
         if readable <= 0:
             return 0
         try:
-            sent = sock.send(self._data[self._read_pos:self._write_pos])
+            sent = sock.send(self._data[self._read_pos:self._write_pos])  # TODO: use sendfile()
             self._read_pos += sent
             return sent
         except (BlockingIOError, Exception):

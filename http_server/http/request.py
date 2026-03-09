@@ -121,7 +121,7 @@ class Request:
 
         # file not exists
         try:
-            os.stat(file)
+            os.stat(file)  # TODO: path security, use abspath()
         except FileNotFoundError:
             response.send_404_html(write_buf, sock)
 
