@@ -12,7 +12,7 @@ to illustrate event-driven network programming.
 
 ## Version
 
-**2.2.1**
+**2.2.2**
 
 ## install
 
@@ -36,16 +36,16 @@ if __name__ == '__main__':
 
 ## Reactor-based HTTP Server (Python)
 
-- Implemented a non-blocking HTTP server using the Reactor pattern
+- Implemented a non-blocking HTTP server using the Reactor pattern.
 
-- Built custom Buffer, Request parser, and Response builder
+- Built custom Buffer, Request parser, and Response builder.
 
-- Implemented static file serving and directory listing
+- Implemented static file serving and directory listing.
 
-- Designed multi-reactor architecture with threadpool
+- Designed multi-reactor architecture with threadpool.
 
-- Handled partial read/write and TCP connection lifecycle
+- Handled partial read/write and TCP connection lifecycle.
 
-- Others maybe done in the future
+- Others maybe done in the future?
 
 ## Contributions are welcome!
