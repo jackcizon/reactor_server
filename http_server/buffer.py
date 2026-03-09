@@ -94,21 +94,24 @@ class Buffer:
         except (BlockingIOError, Exception):
             pass
 
-    def read_pos_inc(self, count):
+    def read_pos_inc(self, count: int):
+        """for reading additional \r\n"""
         self._read_pos += count
         return self._read_pos
 
     def find_crlf(self) -> int | None:
+        """find the first index of \r\n, and return the index"""
         idx = self._data.find(b'\r\n', self._read_pos, self._write_pos)
         if idx == -1:
             return None
         return idx
 
     def read_line(self):
+        """read 1 line util \r\n"""
         end = self.find_crlf()
         if end is None:
             return None
 
         line = self._data[self._read_pos:end].decode()
-        self.read_pos_inc(len(line) + 2)
+        self.read_pos_inc(len(line) + 2)  # must read \r\n, len = 2
         return line
