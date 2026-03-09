@@ -6,8 +6,8 @@ from select import EPOLLIN, EPOLLET, epoll
 from socket import AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR, socket
 from threading import Thread
 
-from simple_http_server.conf import BASE_DIR, HOST, PORT, STATIC_DIR
-from simple_http_server.log import logger
+from reactor_server.simple_http_server.conf import BASE_DIR, HOST, PORT, STATIC_DIR
+from reactor_server.simple_http_server.log import logger
 
 sfd_socket_map: dict[int, socket] = {}
 efd_epoll_map: dict[int, epoll] = {}
