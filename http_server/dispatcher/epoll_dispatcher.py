@@ -52,15 +52,18 @@ class EpollDispatcher(DispatcherInterface):
         self._channel.destroy_callback()
 
     def dispatch(self):
-        self.events = self.ep.poll(self._timeout)
-        events = self.events
-        for fd, event_mask in events:
-            if event_mask & EPOLLERR or event_mask & EPOLLHUP:
-                continue
-            if event_mask & EPOLLIN:
-                self._loop.event_active(fd, constants.CHANNEL_READ_EVENT)
-            if event_mask & EPOLLOUT:
-                self._loop.event_active(fd, constants.CHANNEL_WRITE_EVENT)
+        try:
+            self.events = self.ep.poll(self._timeout)
+            events = self.events
+            for fd, event_mask in events:
+                if event_mask & EPOLLERR or event_mask & EPOLLHUP:
+                    continue
+                if event_mask & EPOLLIN:
+                    self._loop.event_active(fd, constants.CHANNEL_READ_EVENT)
+                if event_mask & EPOLLOUT:
+                    self._loop.event_active(fd, constants.CHANNEL_WRITE_EVENT)
+        except (KeyboardInterrupt, Exception):
+            exit()
 
     def set_channel(self, channel: Channel):
         """
