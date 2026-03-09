@@ -52,6 +52,7 @@ class Response:
 
         self.add_header('Content-Type', get_file_type(file_ext))
         self.add_header('Content-Length', str(file_size))
+        self.add_header("Connection", "close")
 
         self.send_raw_headers(write_buf, sock)
 
@@ -95,6 +96,7 @@ class Response:
 
         # must include this, otherwise browser 'tab' continue loading...
         self.add_header('Content-Length', str(len(raw_html)))
+        self.add_header("Connection", "close")
 
         # send headers
         self.send_raw_headers(write_buf, sock)

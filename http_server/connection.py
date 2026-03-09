@@ -52,7 +52,7 @@ class Connection:
                 self._write_buf.append('HTTP/1.1 400 Bad Request\r\n\r\n')
         else:
             self._loop.add_task(self._channel, EVENTLOOP_ACTION_DELETE_CHANNEL)
-            # _debug_connection_lost()
+            _debug_connection_lost()
 
     def write(self):
         count = self._write_buf.send_data(self._channel.sock)
