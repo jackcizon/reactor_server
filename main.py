@@ -1,8 +1,8 @@
 import os
 
-from http_server.eventloop import EventLoop
-from http_server.server import Server
-from http_server.settings import BASE_DIR
+from reactor_server.http_server.eventloop import EventLoop
+from reactor_server.http_server.server import Server
+from reactor_server.http_server.settings import BASE_DIR
 
 if __name__ == '__main__':
     os.chdir(os.path.join(BASE_DIR))
