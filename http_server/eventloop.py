@@ -16,7 +16,7 @@ from http_server.dispatcher.epoll_dispatcher import EpollDispatcher
 class EventLoop:
     def __init__(self, dispatcher_cls: type[DispatcherInterface] = EpollDispatcher, thread_name: str = None):
         self._is_quit = False
-        self._dispatcher = dispatcher_cls()
+        self._dispatcher = dispatcher_cls(self)
         self._channel_task_queue: deque[ChannelElement] = deque()
         self._channel_map: dict[int, Channel] = {}
         self._thread_id: int | None = None  # must allocate in run()
@@ -67,9 +67,11 @@ class EventLoop:
     def event_active(self, fd: int, event_mask: int):
         channel = self._channel_map[fd]
         if event_mask & CHANNEL_READ_EVENT and channel.read_callback:
-            channel.read_callback(channel.args)
+            # channel.read_callback(channel.args)
+            channel.read_callback()
         if event_mask & CHANNEL_WRITE_EVENT and channel.write_callback:
-            channel.write_callback(channel.args)
+            # channel.write_callback(channel.args)
+            channel.write_callback()
 
     def add_task(self, channel: Channel, action: int):
         with self._mutex:
