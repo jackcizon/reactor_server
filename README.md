@@ -12,7 +12,7 @@ to illustrate event-driven network programming.
 
 ## Version
 
-**2.1.0**
+**2.2.0**
 
 ## Reactor-based HTTP Server (Python)
 
