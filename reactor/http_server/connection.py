@@ -1,12 +1,12 @@
 from socket import socket
 
-from http_server.buffer import Buffer
-from http_server.channel import Channel
-from http_server.constants import CHANNEL_READ_EVENT, EVENTLOOP_ACTION_ADD_CHANNEL, EVENTLOOP_ACTION_DELETE_CHANNEL, \
+from reactor.http_server.buffer import Buffer
+from reactor.http_server.channel import Channel
+from reactor.http_server.constants import CHANNEL_READ_EVENT, EVENTLOOP_ACTION_ADD_CHANNEL, EVENTLOOP_ACTION_DELETE_CHANNEL, \
     EVENTLOOP_ACTION_MODIFY_CHANNEL
-from http_server.eventloop import EventLoop
-from http_server.http.request import Request
-from http_server.http.response import Response
+from reactor.http_server.eventloop import EventLoop
+from reactor.http_server.http.request import Request
+from reactor.http_server.http.response import Response
 
 
 def _debug_read_buf(read_buf):

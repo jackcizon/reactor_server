@@ -1,10 +1,10 @@
 import os
 from socket import socket
 
-from http_server.buffer import Buffer
-from http_server.constants import HTTP_STATUS_CODES_MSG_MAP, STATUS_OK
-from http_server.settings import STATIC_DIR, BASE_DIR
-from http_server.utils import get_file_type
+from reactor.http_server.buffer import Buffer
+from reactor.http_server.constants import HTTP_STATUS_CODES_MSG_MAP, STATUS_OK
+from reactor.http_server.settings import STATIC_DIR, BASE_DIR
+from reactor.http_server.utils import get_file_type
 
 
 class Response:

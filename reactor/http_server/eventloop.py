@@ -5,16 +5,16 @@ from collections import deque
 from socket import socket, socketpair, AF_UNIX, SOCK_STREAM
 from threading import RLock
 
-from http_server import constants
-from http_server.channel import Channel, ChannelElement
-from http_server.constants import (
+from reactor.http_server import constants
+from reactor.http_server.channel import Channel, ChannelElement
+from reactor.http_server.constants import (
     CHANNEL_READ_EVENT,
     CHANNEL_WRITE_EVENT,
     EVENTLOOP_ACTION_ADD_CHANNEL,
     EVENTLOOP_ACTION_DELETE_CHANNEL,
     EVENTLOOP_ACTION_MODIFY_CHANNEL)
-from http_server.dispatcher.base_dispatcher import DispatcherInterface
-from http_server.dispatcher.epoll_dispatcher import EpollDispatcher
+from reactor.http_server.dispatcher.base_dispatcher import DispatcherInterface
+from reactor.http_server.dispatcher.epoll_dispatcher import EpollDispatcher
 
 
 class EventLoop:

@@ -1,6 +1,6 @@
 import threading
 
-from http_server.eventloop import EventLoop
+from reactor.http_server.eventloop import EventLoop
 
 
 class WorkerThread:

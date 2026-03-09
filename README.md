@@ -3,9 +3,16 @@
 **A minimal HTTP server implementing the Reactor pattern in Python.
 Designed for learning event-driven network programming.**
 
+This project aims to demonstrate how to implement
+a Reactor-based HTTP server from scratch in Python.
+
+Core components such as Buffer, HTTP request parser,
+and HTTP response builder are implemented manually
+to illustrate event-driven network programming.
+
 ## Version
 
-**2.0.0**
+**2.1.0**
 
 ## Reactor-based HTTP Server (Python)
 
