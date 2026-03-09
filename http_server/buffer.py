@@ -24,6 +24,10 @@ class Buffer:
         return self._capacity - self._write_pos
 
     @property
+    def read_pos(self):
+        return self._read_pos
+
+    @property
     def data(self) -> str:
         return self._data[self._read_pos: self._write_pos].decode()
 
@@ -63,12 +67,6 @@ class Buffer:
         self._data[self._write_pos: self._write_pos + buf_size] = buf
         self._write_pos += buf_size
 
-    def find_crlf(self) -> int | None:
-        idx = self._data.find(b'\r\n', self._read_pos, self._write_pos)
-        if idx == -1:
-            return None
-        return idx
-
     def write_view(self):
         """mem view = pointer + length + metadata"""
         return memoryview(self._data)[self._write_pos:]
@@ -95,3 +93,22 @@ class Buffer:
             return sent
         except (BlockingIOError, Exception):
             pass
+
+    def read_pos_inc(self, count):
+        self._read_pos += count
+        return self._read_pos
+
+    def find_crlf(self) -> int | None:
+        idx = self._data.find(b'\r\n', self._read_pos, self._write_pos)
+        if idx == -1:
+            return None
+        return idx
+
+    def read_line(self):
+        end = self.find_crlf()
+        if end is None:
+            return None
+
+        line = self._data[self._read_pos:end].decode()
+        self.read_pos_inc(len(line) + 2)
+        return line
