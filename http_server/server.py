@@ -6,6 +6,8 @@ from http_server.constants import CHANNEL_READ_EVENT, EVENTLOOP_ACTION_ADD_CHANN
 from http_server.eventloop import EventLoop
 from http_server.thread.thread_pool import ThreadPool
 
+def _debug_server_running(sock: socket):
+    print(f'server running in {sock.getsockname()}')
 
 class Server:
     def __init__(self, loop_cls: type[EventLoop], thread_num: int, host: str = 'localhost', port: int = 8000):
@@ -20,7 +22,7 @@ class Server:
         self._setup_sock()
 
     def run(self):
-        print('server running.')
+        _debug_server_running(self._sock)
         self._thread_pool.run()
         channel = Channel(
             sock=self._sock,
@@ -46,7 +48,3 @@ class Server:
         print(f'new connection from: {addr}')
         loop = self._thread_pool.take_worker()
         Connection(conn, loop)
-
-
-if __name__ == '__main__':
-    Server(loop_cls=EventLoop, thread_num=10).run()
