@@ -20,6 +20,7 @@ class Server:
         self._setup_sock()
 
     def run(self):
+        print('server running.')
         self._thread_pool.run()
         channel = Channel(
             sock=self._sock,
@@ -42,5 +43,10 @@ class Server:
 
     def _accept_connection(self):
         conn, addr = self._sock.accept()
+        print(f'new connection from: {addr}')
         loop = self._thread_pool.take_worker()
         Connection(conn, loop)
+
+
+if __name__ == '__main__':
+    Server(loop_cls=EventLoop, thread_num=10).run()
