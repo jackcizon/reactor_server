@@ -12,7 +12,27 @@ to illustrate event-driven network programming.
 
 ## Version
 
-**2.2.0**
+**2.2.1**
+
+## install
+
+```shell
+pip install reactor-server
+```
+
+## example:
+
+```shell
+import os
+
+from reactor_server.http_server.eventloop import EventLoop
+from reactor_server.http_server.server import Server
+from reactor_server.http_server.settings import BASE_DIR
+
+if __name__ == '__main__':
+    os.chdir(os.path.join(BASE_DIR))
+    Server(loop_cls=EventLoop, thread_num=10).run()
+```
 
 ## Reactor-based HTTP Server (Python)
 
