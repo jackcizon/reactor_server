@@ -25,10 +25,11 @@ def _debug_connection_lost():
 
 
 class Connection:
-    def __init__(self, sock: socket, loop: EventLoop):
+    def __init__(self, sock: socket, loop: EventLoop, root):
         self._sock = sock
         self._fd = sock.fileno()
         self._loop = loop
+        self.root = root
         self._name = f'connection-{self._fd}'
         self._channel = Channel(
             sock=self._sock,
@@ -40,8 +41,8 @@ class Connection:
         )
         self._read_buf = Buffer(10240)
         self._write_buf = Buffer(10240)
-        self._request = Request()
-        self._response = Response()
+        self._request = Request(self.root)
+        self._response = Response(self.root)
         self._loop.add_task(channel=self._channel, action=EVENTLOOP_ACTION_ADD_CHANNEL)
 
     def read(self):

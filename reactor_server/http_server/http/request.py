@@ -34,7 +34,8 @@ def _debug_parse_body():
 
 
 class Request:
-    def __init__(self):
+    def __init__(self, root):
+        self.root = root
         self._path: str | None = None
         self._method: str | None = None
         self._version: str | None = None
@@ -113,20 +114,26 @@ class Request:
         if self.method.upper() != 'GET':
             return None
 
-        # is root path
+        ######################
+        # convert to doc root
         if self._path == '/':
-            file = './'
+            file = self.root
         else:
-            file = self._path.lstrip('/')  # e.g: /robots.txt, rm '/', get 'robots.txt'
+            file = self.root + self._path
+        ########################
 
         # file not exists
         try:
-            os.stat(file)  # TODO: path security, use abspath()
+            print('stat: ', file)
+            os.stat(file)
         except FileNotFoundError:
             response.send_404_html(write_buf, sock)
 
+        # file = file.split('/')[-1]
         if os.path.isdir(file):
+            print('dir')
             response.send_dir(dirname=file, write_buf=write_buf, sock=sock)
 
         if os.path.isfile(file):
+            print('file')
             response.send_file(file, write_buf, sock)
