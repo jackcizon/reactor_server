@@ -12,7 +12,7 @@ to illustrate event-driven network programming.
 
 ## Version
 
-**2.2.2**
+**2.3.0**
 
 ## install
 
