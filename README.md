@@ -32,7 +32,7 @@ if __name__ == '__main__':
 
 ## Reactor-based HTTP Server (Python)
 
-- Similar to
+- Similar to `http.server`.
 
 - Implemented a non-blocking HTTP server using the Reactor pattern.
 
