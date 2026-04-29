@@ -45,5 +45,3 @@ if __name__ == '__main__':
 - Handled partial read/write and TCP connection lifecycle.
 
 - Others maybe done in the future?
-
-## Contributions are welcome!
