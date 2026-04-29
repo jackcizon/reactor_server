@@ -1,18 +1,21 @@
+from reactor_server.http_server.channel import Channel
+
+
 class DispatcherInterface:
     """interface of dispatcher"""
 
     def __init__(self, *args, **kwargs):
         pass
 
-    def add(self):
+    def add(self, channel: Channel):
         """add a channel into eventloop"""
         raise NotImplementedError
 
-    def remove(self):
+    def remove(self, channel: Channel):
         """remove related channel"""
         raise NotImplementedError
 
-    def modify(self):
+    def modify(self, channel: Channel):
         """modify channel status"""
         raise NotImplementedError
 
@@ -22,7 +25,4 @@ class DispatcherInterface:
 
     def dispatch(self):
         """monitor events"""
-        raise NotImplementedError
-
-    def set_channel(self, channel):
         raise NotImplementedError

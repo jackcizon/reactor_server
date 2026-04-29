@@ -2,7 +2,8 @@ from socket import socket
 
 from reactor_server.http_server.buffer import Buffer
 from reactor_server.http_server.channel import Channel
-from reactor_server.http_server.constants import CHANNEL_READ_EVENT, EVENTLOOP_ACTION_ADD_CHANNEL, EVENTLOOP_ACTION_DELETE_CHANNEL, \
+from reactor_server.http_server.constants import CHANNEL_READ_EVENT, EVENTLOOP_ACTION_ADD_CHANNEL, \
+    EVENTLOOP_ACTION_DELETE_CHANNEL, \
     EVENTLOOP_ACTION_MODIFY_CHANNEL
 from reactor_server.http_server.eventloop import EventLoop
 from reactor_server.http_server.http.request import Request
@@ -14,6 +15,7 @@ def _debug_read_buf(read_buf):
     print(f'--------------------------------'
           f'\n{read_buf.data}'
           f'--------------------------------')
+
 
 def _debug_connection_lost():
     """inner private function for debugging"""
@@ -58,12 +60,10 @@ class Connection:
         count = self._write_buf.send_data(self._channel.sock)
         if count > 0:
             if self._write_buf.readable_size > 0:
-                self._channel.writable(False)
+                self._channel.set_writable(False)
                 self._loop.add_task(self._channel, EVENTLOOP_ACTION_MODIFY_CHANNEL)
                 self._loop.add_task(self._channel, EVENTLOOP_ACTION_DELETE_CHANNEL)
 
     def destroy(self):
         if self is not None:
             del self
-
-

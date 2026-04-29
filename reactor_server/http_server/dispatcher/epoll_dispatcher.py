@@ -1,8 +1,7 @@
-import os
 from select import EPOLLIN, EPOLLOUT, EPOLLHUP, EPOLLERR, epoll
 
-from reactor_server.http_server.channel import Channel
 from reactor_server.http_server import constants
+from reactor_server.http_server.channel import Channel
 from reactor_server.http_server.dispatcher.base_dispatcher import DispatcherInterface
 
 
@@ -14,42 +13,37 @@ class EpollDispatcher(DispatcherInterface):
         self._loop = loop
         self._name = name
         self._timeout = timeout
-        self._channel: Channel | None = None
         self.ep = epoll()
         self.events: list[tuple[int, int]] = []
         self.efd = self.ep.fileno()
         self.max_events = max_events
 
-    def clear(self):
-        os.close(self.efd)
-        del self
-
-    def _epoll_ctl(self, operation: int):
+    def _epoll_ctl(self, channel: Channel, operation: int):
         event_mask = 0
-        if self._channel.event_mask & constants.CHANNEL_READ_EVENT:
+        if channel.is_readable():
             event_mask |= EPOLLIN
-        if self._channel.event_mask & constants.CHANNEL_WRITE_EVENT:
+        if channel.is_writable():
             event_mask |= EPOLLOUT
 
         if operation == constants.EPOLL_CTL_ADD:
-            self.ep.register(fd=self._channel.fd, eventmask=event_mask)
+            self.ep.register(fd=channel.fd, eventmask=event_mask)
         elif operation == constants.EPOLL_CTL_MOD:
-            self.ep.modify(fd=self._channel.fd, eventmask=event_mask)
+            self.ep.modify(fd=channel.fd, eventmask=event_mask)
         elif operation == constants.EPOLL_CTL_DEL:
-            self.ep.unregister(self._channel.fd)
+            self.ep.unregister(channel.fd)
         else:
             raise Exception('_epoll_ctl() operation is invalid.')
 
-    def add(self):
-        self._epoll_ctl(constants.EPOLL_CTL_ADD)
+    def add(self, channel: Channel):
+        self._epoll_ctl(channel, constants.EPOLL_CTL_ADD)
 
-    def modify(self):
-        self._epoll_ctl(constants.EPOLL_CTL_MOD)
+    def modify(self, channel: Channel):
+        self._epoll_ctl(channel, constants.EPOLL_CTL_MOD)
 
-    def remove(self):
-        self._epoll_ctl(constants.EPOLL_CTL_DEL)
-        # self._channel.destroy_callback(self._channel.args)
-        self._channel.destroy_callback()
+    def remove(self, channel: Channel):
+        self._epoll_ctl(channel, constants.EPOLL_CTL_DEL)
+        # channel.destroy_callback(channel.args)
+        channel.destroy_callback()
 
     def dispatch(self):
         try:
@@ -64,11 +58,3 @@ class EpollDispatcher(DispatcherInterface):
                     self._loop.event_active(fd, constants.CHANNEL_WRITE_EVENT)
         except (KeyboardInterrupt, Exception):
             exit()
-
-    def set_channel(self, channel: Channel):
-        """
-        set dispatcher's channel instance,
-        this method will only call in eventloop,
-        similar to Future() in asyncio.eventloop.
-        """
-        self._channel = channel

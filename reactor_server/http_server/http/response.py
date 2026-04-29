@@ -17,10 +17,6 @@ class Response:
     def set_status_code(self, code: int):
         self._status_code = code
 
-    @property
-    def headers(self):
-        return self._headers
-
     def add_header(self, key: str, value: str):
         self._headers[key] = value
 
