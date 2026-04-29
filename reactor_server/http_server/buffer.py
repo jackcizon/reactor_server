@@ -12,20 +12,12 @@ class Buffer:
         self._write_pos = 0
 
     @property
-    def capacity(self) -> int:
-        return self._capacity
-
-    @property
     def readable_size(self) -> int:
         return self._write_pos - self._read_pos
 
     @property
     def writable_size(self) -> int:
         return self._capacity - self._write_pos
-
-    @property
-    def read_pos(self):
-        return self._read_pos
 
     @property
     def data(self) -> str:

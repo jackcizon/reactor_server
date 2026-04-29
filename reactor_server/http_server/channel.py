@@ -1,6 +1,6 @@
+from collections.abc import Callable
 from socket import socket
 from typing import Any
-from collections.abc import Callable
 
 from reactor_server.http_server import constants
 
@@ -25,10 +25,13 @@ class Channel:
         self.destroy_callback = destroy_callback
         self._args = args
 
-    def is_writeable(self):
+    def is_readable(self):
+        return self.event_mask & constants.CHANNEL_READ_EVENT
+
+    def is_writable(self):
         return self.event_mask & constants.CHANNEL_WRITE_EVENT
 
-    def writable(self, flag: bool):
+    def set_writable(self, flag: bool):
         if flag is True:
             self._event_mask |= constants.CHANNEL_WRITE_EVENT
         else:
@@ -45,10 +48,6 @@ class Channel:
 
     def set_event_mask(self, event_mask: int):
         self._event_mask = event_mask
-
-    @property
-    def args(self):
-        return self._args
 
 
 class ChannelElement:

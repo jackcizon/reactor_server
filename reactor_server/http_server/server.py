@@ -15,9 +15,10 @@ def _debug_server_accept_connection(addr):
 
 
 class Server:
-    def __init__(self, loop_cls: type[EventLoop], thread_num: int, host: str = 'localhost', port: int = 8000):
+    def __init__(self, loop_cls: type[EventLoop], root, thread_num: int = 4, host: str = 'localhost', port: int = 8000):
         self._loop: EventLoop | None = loop_cls()
         self._thread_num = thread_num
+        self.root = root
         self._host = host
         self._port = port
         self._thread_pool = ThreadPool(self._loop, thread_num)
@@ -52,4 +53,4 @@ class Server:
         conn, addr = self._sock.accept()
         _debug_server_accept_connection(addr)
         loop = self._thread_pool.take_worker()
-        Connection(conn, loop)
+        Connection(conn, loop, self.root)

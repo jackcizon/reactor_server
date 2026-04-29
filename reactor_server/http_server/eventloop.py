@@ -64,17 +64,11 @@ class EventLoop:
             self._dispatcher.dispatch()
             self._process_task_queue()
 
-    @property
-    def dispatcher(self):
-        return self._dispatcher
-
     def event_active(self, fd: int, event_mask: int):
         channel = self._channel_map[fd]
         if event_mask & CHANNEL_READ_EVENT and channel.read_callback:
-            # channel.read_callback(channel.args)
             channel.read_callback()
         if event_mask & CHANNEL_WRITE_EVENT and channel.write_callback:
-            # channel.write_callback(channel.args)
             channel.write_callback()
 
     def add_task(self, channel: Channel, action: int):
@@ -108,25 +102,18 @@ class EventLoop:
     def _add(self, channel: Channel):
         if channel.fd not in self._channel_map.keys():
             self._channel_map[channel.fd] = channel
-            self._dispatcher.set_channel(channel)
-            self._dispatcher.add()
+            self._dispatcher.add(channel)
 
     def _remove(self, channel: Channel):
-        if channel.fd in self._channel_map.keys():
-            self._dispatcher.set_channel(channel)
-            self._dispatcher.remove()
+        fd = channel.fd
+        if fd in self._channel_map.keys():
+            self._dispatcher.remove(channel)
+            del self._channel_map[fd]
+            os.close(fd)
 
     def _modify(self, channel: Channel):
         if channel.fd in self._channel_map.keys():
-            self._dispatcher.set_channel(channel)
-            self._dispatcher.modify()
-
-    def free_channel(self, channel: Channel):
-        fd = channel.fd
-        if fd in self._channel_map.keys():
-            os.close(fd)
-            del self._channel_map[fd]
-            del channel
+            self._dispatcher.modify(channel)
 
     @property
     def thread_id(self):

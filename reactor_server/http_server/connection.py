@@ -2,7 +2,8 @@ from socket import socket
 
 from reactor_server.http_server.buffer import Buffer
 from reactor_server.http_server.channel import Channel
-from reactor_server.http_server.constants import CHANNEL_READ_EVENT, EVENTLOOP_ACTION_ADD_CHANNEL, EVENTLOOP_ACTION_DELETE_CHANNEL, \
+from reactor_server.http_server.constants import CHANNEL_READ_EVENT, EVENTLOOP_ACTION_ADD_CHANNEL, \
+    EVENTLOOP_ACTION_DELETE_CHANNEL, \
     EVENTLOOP_ACTION_MODIFY_CHANNEL
 from reactor_server.http_server.eventloop import EventLoop
 from reactor_server.http_server.http.request import Request
@@ -15,6 +16,7 @@ def _debug_read_buf(read_buf):
           f'\n{read_buf.data}'
           f'--------------------------------')
 
+
 def _debug_connection_lost():
     """inner private function for debugging"""
     print('---------------'
@@ -23,10 +25,11 @@ def _debug_connection_lost():
 
 
 class Connection:
-    def __init__(self, sock: socket, loop: EventLoop):
+    def __init__(self, sock: socket, loop: EventLoop, root):
         self._sock = sock
         self._fd = sock.fileno()
         self._loop = loop
+        self.root = root
         self._name = f'connection-{self._fd}'
         self._channel = Channel(
             sock=self._sock,
@@ -38,8 +41,8 @@ class Connection:
         )
         self._read_buf = Buffer(10240)
         self._write_buf = Buffer(10240)
-        self._request = Request()
-        self._response = Response()
+        self._request = Request(self.root)
+        self._response = Response(self.root)
         self._loop.add_task(channel=self._channel, action=EVENTLOOP_ACTION_ADD_CHANNEL)
 
     def read(self):
@@ -58,12 +61,10 @@ class Connection:
         count = self._write_buf.send_data(self._channel.sock)
         if count > 0:
             if self._write_buf.readable_size > 0:
-                self._channel.writable(False)
+                self._channel.set_writable(False)
                 self._loop.add_task(self._channel, EVENTLOOP_ACTION_MODIFY_CHANNEL)
                 self._loop.add_task(self._channel, EVENTLOOP_ACTION_DELETE_CHANNEL)
 
     def destroy(self):
         if self is not None:
             del self
-
-

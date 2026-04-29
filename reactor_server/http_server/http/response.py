@@ -3,12 +3,13 @@ from socket import socket
 
 from reactor_server.http_server.buffer import Buffer
 from reactor_server.http_server.constants import HTTP_STATUS_CODES_MSG_MAP, STATUS_OK
-from reactor_server.http_server.settings import STATIC_DIR, BASE_DIR
+from reactor_server.http_server.settings import STATIC_DIR
 from reactor_server.http_server.utils import get_file_type
 
 
 class Response:
-    def __init__(self):
+    def __init__(self, root):
+        self.root = root
         self._status_code: int = 200
         self._filename: str | None = None
         self._headers: dict[str, str] = {}
@@ -16,10 +17,6 @@ class Response:
 
     def set_status_code(self, code: int):
         self._status_code = code
-
-    @property
-    def headers(self):
-        return self._headers
 
     def add_header(self, key: str, value: str):
         self._headers[key] = value
@@ -42,7 +39,8 @@ class Response:
         write_buf.append('\r\n')
 
     def send_file(self, file, write_buf: Buffer, sock: socket):
-        filepath = os.path.join(BASE_DIR, file)
+        print('file: ', file)
+        filepath = os.path.join(self.root, file)
         file_ext = file.split('.')[-1]
 
         fd = os.open(filepath, os.O_RDONLY)
@@ -73,9 +71,11 @@ class Response:
                      f"<title>{dirname}</title>"
                      f"</head>"
                      f"<body><table>")
-        dirpath = os.path.join(BASE_DIR, dirname)
+        dirpath = os.path.join(dirname)
+        print('dirname: ', dirname)
         for item in os.scandir(dirpath):
             name = item.name
+            print('dir file:', name)
             sub_path = os.path.join(dirpath, name)
             st = os.stat(sub_path)
 
